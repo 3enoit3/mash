@@ -1,0 +1,11 @@
+[Unit]
+Description = Serve mash files over http
+Wants = multi-user.target
+After = multi-user.target
+
+[Service]
+Type = idle
+ExecStart = /home/pi/Projects/mash/run_http.sh
+
+[Install]
+WantedBy = multi-user.target

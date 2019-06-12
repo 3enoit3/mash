@@ -35,7 +35,7 @@ def get_mails():
 
         for response_part in data:
             if isinstance(response_part, tuple):
-                yield email.message_from_string(response_part[1])
+                yield email.message_from_string(response_part[1]) # pylint: disable=unsubscriptable-object
 
 def extract_contents(mails):
     """Extract mail content"""
@@ -55,11 +55,13 @@ def extract_urls(contents):
 
 def download_videos(urls):
     """Process urls"""
+    bin_dir = os.environ['MASH_BIN_DIR']
+    youtube_dl = bin_dir + "/youtube-dl"
     for url in urls:
         try:
             if os.path.isfile("info.json"):
                 os.remove("info.json")
-            cmd = ["/usr/local/bin/youtube-dl", "--extract-audio",\
+            cmd = [youtube_dl, "--extract-audio",\
                     "--audio-format", "mp3", "-f", "140",\
                     "-l", url]
             out = subprocess.check_output(cmd, stderr=subprocess.STDOUT)
@@ -70,13 +72,13 @@ def download_videos(urls):
 def process():
     """Handle request"""
     mails = list(get_mails())
-    logging.debug("retrieved {} mails".format(len(mails)))
+    logging.debug("retrieved %d mails", len(mails))
     contents = list(extract_contents(mails))
     logging.debug(contents)
     urls = list(extract_urls(contents))
     logging.debug(urls)
     for url, status, _ in download_videos(urls):
-        logging.debug("{}: {}".format(url, "ok" if status else "ko"))
+        logging.debug("%s: %s", url, "ok" if status else "ko")
 
 def main():
     """Entry point"""

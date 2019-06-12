@@ -1,0 +1,11 @@
+[Unit]
+Description = Process mail commands
+Wants = multi-user.target
+After = multi-user.target
+
+[Service]
+Type = oneshot
+ExecStart = /home/pi/Projects/mash/run_mash.sh -d
+
+[Install]
+WantedBy = multi-user.target
