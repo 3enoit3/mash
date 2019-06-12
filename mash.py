@@ -48,10 +48,13 @@ def extract_contents(mails):
 
 def extract_urls(contents):
     """Extract data from mails"""
-    url_re = re.compile(r"https://www.youtube.com/[a-zA-Z0-9?=-_]+")
+    url_re = re.compile(r"https?://[^/]+/[a-zA-Z0-9?=-_]+")
     for content in contents:
         for match in re.finditer(url_re, content):
-            yield match.group(0)
+            url = match.group(0)
+            if url.startswith("https://www.youtube.com/")\
+                    or url.startswith("https://youtu.be/"):
+                yield url
 
 def download_videos(urls):
     """Process urls"""

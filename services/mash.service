@@ -5,7 +5,7 @@ After = multi-user.target
 
 [Service]
 Type = oneshot
-ExecStart = /home/pi/Projects/mash/run_mash.sh -d
+ExecStart = /home/pi/Projects/mash/run_mash.sh
 
 [Install]
 WantedBy = multi-user.target

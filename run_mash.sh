@@ -8,4 +8,4 @@ source ${MASH_DIR}/env.sh
 cd ${MASH_DATA_DIR}
 
 MASH=${MASH_DIR}/mash.py
-python ${MASH}
+python ${MASH} -d
